@@ -97,7 +97,7 @@ export default function ChatThreadPage({
         </div>
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto w-full bg-white px-6 pb-6 pt-3">
+      <div className="fixed bottom-0 left-0 right-0 w-full bg-white px-6 pb-[calc(24px+env(safe-area-inset-bottom))] pt-3">
         <div className="flex items-center gap-4">
           <div className="flex-1 bg-white border border-primary/40 rounded-full px-6 py-4 shadow-[0_10px_25px_rgba(0,0,0,0.06)]">
             <input

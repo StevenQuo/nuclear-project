@@ -28,8 +28,8 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col pb-20 bg-gray-50">
-        <main className="flex-1 max-w-md mx-auto w-full bg-white min-h-screen relative overflow-x-hidden">
+      <body className="min-h-full flex flex-col bg-background text-foreground">
+        <main className="flex-1 w-full min-h-screen relative overflow-x-hidden">
           {children}
         </main>
         <BottomNav />

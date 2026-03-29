@@ -58,7 +58,7 @@ function ThreadRow({ thread }: { thread: ChatThread }) {
 
 export default function ChatPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white pb-[calc(96px+env(safe-area-inset-bottom))]">
       <header className="px-6 pt-12 pb-6 border-b border-gray-200">
         <h1 className="text-2xl font-bold text-black">Chat</h1>
       </header>

@@ -62,7 +62,7 @@ function VoucherCard({ promo }: { promo: VoucherPromo }) {
 
 export default function PromoPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white pb-[calc(96px+env(safe-area-inset-bottom))]">
       <header className="px-6 pt-12 pb-6 border-b border-gray-100">
         <h1 className="text-2xl font-bold text-black">Promo</h1>
       </header>

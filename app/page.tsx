@@ -25,7 +25,7 @@ export default async function Home() {
         ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white pb-[calc(96px+env(safe-area-inset-bottom))]">
       {/* Header Section */}
       <header className="bg-primary rounded-b-[40px] px-6 pt-12 pb-10">
         <div className="flex justify-between items-center mb-8">
