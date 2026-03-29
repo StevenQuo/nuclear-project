@@ -1,6 +1,29 @@
 import { MapPin, Star } from 'lucide-react';
+import { fetchSuppliers, type Supplier } from './services/suppliers';
 
-export default function Home() {
+export default async function Home() {
+  let suppliers: Supplier[] = [];
+
+  try {
+    suppliers = await fetchSuppliers();
+  } catch {
+    suppliers = [];
+  }
+
+  const supplierCards =
+    suppliers.length > 0
+      ? suppliers
+      : [
+          {
+            id: 0,
+            name: 'Steven Bakery',
+            address: 'Jl. Antasura 12, Denpasar Bali',
+            latitude: null,
+            longitude: null,
+            rating: 5,
+          },
+        ];
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Header Section */}
@@ -60,37 +83,55 @@ export default function Home() {
             <h2 className="text-lg font-bold text-gray-800">Supplier Terdekat</h2>
           </div>
 
-          <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 flex flex-col">
-            <div className="relative h-48 w-full bg-gray-100">
-              {/* Supplier Product Image Placeholder */}
-              <div className="w-full h-full flex items-center justify-center text-gray-400 italic">
-                Product Image
-              </div>
-            </div>
-            
-            <div className="p-5 flex flex-col gap-3">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">Steven Bakery</h3>
-                  <div className="flex items-center gap-1 mt-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star key={i} size={14} className="fill-yellow-400 text-yellow-400" />
-                    ))}
+          <div className="flex flex-col gap-4">
+            {supplierCards.slice(0, 3).map((supplier) => {
+              const rating = typeof supplier.rating === 'number' ? supplier.rating : 0;
+              const filled = Math.max(0, Math.min(5, Math.round(rating)));
+
+              return (
+                <div
+                  key={supplier.id}
+                  className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 flex flex-col"
+                >
+                  <div className="relative h-48 w-full bg-gray-100">
+                    <div className="w-full h-full flex items-center justify-center text-gray-400 italic">
+                      Product Image
+                    </div>
+                  </div>
+
+                  <div className="p-5 flex flex-col gap-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900">{supplier.name}</h3>
+                        <div className="flex items-center gap-1 mt-1">
+                          {[1, 2, 3, 4, 5].map((i) => {
+                            const isFilled = i <= filled;
+                            return (
+                              <Star
+                                key={i}
+                                size={14}
+                                className={isFilled ? 'fill-yellow-400 text-yellow-400' : 'text-gray-200'}
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 text-gray-400">
+                      <MapPin size={14} />
+                      <span className="text-xs">{supplier.address}</span>
+                    </div>
+
+                    <div className="flex justify-end">
+                      <button className="bg-[#7C7DB1] text-white px-6 py-2.5 rounded-2xl text-sm font-medium hover:bg-[#6A6B9D] transition-colors">
+                        Pesan Sekarang
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-1.5 text-gray-400">
-                <MapPin size={14} />
-                <span className="text-xs">Jl. Antasura 12, Denpasar Bali</span>
-              </div>
-
-              <div className="flex justify-end">
-                <button className="bg-[#7C7DB1] text-white px-6 py-2.5 rounded-2xl text-sm font-medium hover:bg-[#6A6B9D] transition-colors">
-                  Pesan Sekarang
-                </button>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </section>
       </main>
