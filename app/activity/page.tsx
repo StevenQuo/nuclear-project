@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, CheckCircle2, XCircle, Box, MessageCircle } from 'lucide-react';
+import { MapPin, CheckCircle2, XCircle, Box } from 'lucide-react';
 import { useState } from 'react';
 
 export default function ActivityPage() {

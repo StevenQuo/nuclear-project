@@ -1,5 +1,4 @@
-import { Search, MapPin, Star } from 'lucide-react';
-import Image from 'next/image';
+import { MapPin, Star } from 'lucide-react';
 
 export default function Home() {
   return (
