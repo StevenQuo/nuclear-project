@@ -1,0 +1,114 @@
+'use client';
+
+import { MapPin, CheckCircle2, XCircle } from 'lucide-react';
+import { useState } from 'react';
+
+export default function ActivityPage() {
+  const [activeTab, setActiveTab] = useState('Riwayat');
+
+  const activities = [
+    {
+      id: 1,
+      supplier: 'Steven Bakery',
+      location: 'Jl. Antasura 12, Denpasar Bali',
+      volume: '1 Liter',
+      price: 'Rp.20.000',
+      status: 'Terkirim',
+      statusIcon: CheckCircle2,
+      statusColor: 'text-gray-400',
+    },
+    {
+      id: 2,
+      supplier: 'Steven Bakery',
+      location: 'Jl. Antasura 12, Denpasar Bali',
+      volume: '1 Liter',
+      price: 'Rp.20.000',
+      status: 'Batal',
+      statusIcon: XCircle,
+      statusColor: 'text-gray-400',
+    },
+  ];
+
+  return (
+    <div className="flex flex-col min-h-screen bg-white">
+      {/* Header */}
+      <header className="px-6 pt-12 pb-6 border-b border-gray-100">
+        <h1 className="text-2xl font-bold text-black">Aktivitas</h1>
+      </header>
+
+      {/* Tabs */}
+      <div className="flex px-6 mt-6 border-b border-gray-100">
+        <button
+          onClick={() => setActiveTab('Riwayat')}
+          className={`pb-4 text-2xl font-bold relative transition-colors ${
+            activeTab === 'Riwayat' ? 'text-black' : 'text-gray-300'
+          }`}
+        >
+          Riwayat
+          {activeTab === 'Riwayat' && (
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-full"></div>
+          )}
+        </button>
+        <button
+          onClick={() => setActiveTab('Dalam Proses')}
+          className={`pb-4 px-10 text-2xl font-bold relative transition-colors ${
+            activeTab === 'Dalam Proses' ? 'text-black' : 'text-gray-300'
+          }`}
+        >
+          Dalam Proses
+          {activeTab === 'Dalam Proses' && (
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-full"></div>
+          )}
+        </button>
+      </div>
+
+      {/* Activity List */}
+      <main className="px-6 py-8 flex flex-col gap-6">
+        {activities.map((activity) => {
+          const StatusIcon = activity.statusIcon;
+          return (
+            <div
+              key={activity.id}
+              className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm flex items-stretch"
+            >
+              {/* Image Section */}
+              <div className="w-[120px] h-[120px] m-2.5 rounded-2xl bg-gray-100 relative overflow-hidden flex-shrink-0">
+                <div className="w-full h-full flex items-center justify-center text-gray-400 italic text-[10px] text-center p-2">
+                  Activity Image
+                </div>
+              </div>
+
+              {/* Info Section */}
+              <div className="flex-1 p-4 pl-0 flex flex-col justify-between">
+                <div className="flex flex-col gap-1">
+                  <div className="flex justify-between items-center text-[10px] text-gray-400 font-medium">
+                    <span>{activity.volume}</span>
+                    <span>{activity.price}</span>
+                  </div>
+                  
+                  <h3 className="text-base font-bold text-black leading-tight">{activity.supplier}</h3>
+                  
+                  <div className="flex items-center gap-1 text-gray-400 text-[10px]">
+                    <MapPin size={10} />
+                    <span className="truncate">{activity.location}</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center mt-2">
+                  <div className={`flex items-center gap-1 text-[10px] font-medium ${activity.statusColor} opacity-60`}>
+                    <StatusIcon size={12} />
+                    <span>{activity.status}</span>
+                  </div>
+                  
+                  <button className="bg-[#7C7DB1] text-white px-4 py-1.5 rounded-full text-[10px] font-bold hover:bg-[#6A6B9D] transition-colors shadow-sm">
+                    Pesan Lagi
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </main>
+    </div>
+  );
+}
