@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 type ChatThread = {
   id: string;
   name: string;
@@ -32,7 +34,10 @@ const threads: ChatThread[] = [
 
 function ThreadRow({ thread }: { thread: ChatThread }) {
   return (
-    <button className="w-full text-left px-6 py-6 bg-white active:bg-gray-50 transition-colors">
+    <Link
+      href={`/chat/${thread.id}`}
+      className="block w-full text-left px-6 py-6 bg-white active:bg-gray-50 transition-colors"
+    >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="text-lg font-bold text-black truncate">{thread.name}</div>
@@ -47,7 +52,7 @@ function ThreadRow({ thread }: { thread: ChatThread }) {
           ) : null}
         </div>
       </div>
-    </button>
+    </Link>
   );
 }
 
