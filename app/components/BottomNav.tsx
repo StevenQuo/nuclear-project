@@ -29,10 +29,10 @@ export default function BottomNav() {
             href={item.href}
             className="flex flex-col items-center gap-1.5 transition-transform active:scale-95"
           >
-            <div className={`transition-colors ${isActive ? 'text-primary' : 'text-[#FFD95A]/40'}`}>
+            <div className={`transition-colors ${isActive ? 'text-primary' : 'text-gray-400'}`}>
               <Icon size={isActive ? 28 : 24} strokeWidth={isActive ? 2.5 : 2} />
             </div>
-            <span className={`text-[10px] font-bold transition-all ${isActive ? 'text-primary border-b-2 border-primary pb-0.5 px-2' : 'text-[#FFD95A]/40'}`}>
+            <span className={`text-[10px] font-bold transition-all ${isActive ? 'text-primary border-b-2 border-primary pb-0.5 px-2' : 'text-gray-400'}`}>
               {item.label}
             </span>
           </Link>
