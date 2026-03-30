@@ -1,5 +1,6 @@
 import { MapPin, Star } from 'lucide-react';
 import { fetchSuppliers, type Supplier } from './services/suppliers';
+import HomeHeader from './components/HomeHeader';
 
 export default async function Home() {
   let suppliers: Supplier[] = [];
@@ -28,18 +29,7 @@ export default async function Home() {
     <div className="flex flex-col min-h-screen bg-white pb-[calc(96px+env(safe-area-inset-bottom))]">
       {/* Header Section */}
       <header className="bg-primary rounded-b-[40px] px-6 pt-12 pb-10">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-black tracking-tight">NuClear</h1>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-black">Adhipanna</span>
-            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border-2 border-white/50 shadow-sm">
-              {/* Profile Image Placeholder */}
-              <div className="w-full h-full bg-gray-400 flex items-center justify-center text-lg">
-                👤
-              </div>
-            </div>
-          </div>
-        </div>
+        <HomeHeader />
 
         {/* Search Bar */}
         <div className="relative flex items-center">
