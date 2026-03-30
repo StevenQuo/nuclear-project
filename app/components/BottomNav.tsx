@@ -9,6 +9,8 @@ export default function BottomNav() {
   const shouldHide = pathname.startsWith('/chat/') && pathname !== '/chat';
   if (shouldHide) return null;
   if (pathname === '/register') return null;
+  if (pathname.startsWith('/supplier-account')) return null;
+  if (pathname === '/profile') return null;
 
   const navItems = [
     { icon: MessageSquare, label: 'Chat', href: '/chat' },

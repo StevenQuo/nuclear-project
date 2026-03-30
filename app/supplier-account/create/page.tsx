@@ -1,8 +1,20 @@
 'use client';
 
+import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
-type RegisterPayload = {
+type StoredUser = {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  address?: string | null;
+};
+
+type SupplierPayload = {
+  category: string;
+  businessName: string;
   name: string;
   email: string;
   phone: string;
@@ -10,51 +22,71 @@ type RegisterPayload = {
   password: string;
 };
 
-type RegisterErrorResponse = {
+type ErrorResponse = {
   message?: string;
   errors?: Record<string, string[]>;
 };
 
-export default function RegisterPage() {
-  const [payload, setPayload] = useState<RegisterPayload>({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    password: '',
+function getStoredUser(): StoredUser | null {
+  if (typeof window === 'undefined') return null;
+  const raw = window.localStorage.getItem('nuclear_user');
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as StoredUser;
+  } catch {
+    return null;
+  }
+}
+
+export default function CreateSupplierAccountPage() {
+  const [user] = useState<StoredUser | null>(() => getStoredUser());
+  const [payload, setPayload] = useState<SupplierPayload>(() => {
+    const stored = getStoredUser();
+    return {
+      category: 'UMKM',
+      businessName: '',
+      name: stored?.name ?? '',
+      email: stored?.email ?? '',
+      phone: stored?.phone ?? '',
+      address: stored?.address ?? '',
+      password: '',
+    };
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState('');
 
   const isValid = useMemo(() => {
     return (
+      Boolean(user?.id) &&
+      payload.businessName.trim().length > 0 &&
       payload.name.trim().length > 0 &&
       payload.email.trim().length > 0 &&
-      payload.password.trim().length >= 8
+      payload.password.trim().length > 0
     );
-  }, [payload]);
+  }, [payload, user?.id]);
 
-  const setField = <K extends keyof RegisterPayload>(key: K, value: RegisterPayload[K]) => {
+  const setField = <K extends keyof SupplierPayload>(key: K, value: SupplierPayload[K]) => {
     setPayload((prev) => ({ ...prev, [key]: value }));
   };
 
   const onSubmit = async () => {
-    if (!isValid || status === 'submitting') return;
+    if (!isValid || status === 'submitting' || !user?.id) return;
     setStatus('submitting');
     setMessage('');
 
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000';
 
     try {
-      const res = await fetch(`${baseUrl}/api/auth/register`, {
+      const res = await fetch(`${baseUrl}/api/supplier-profiles`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          name: payload.name,
-          email: payload.email,
+          user_id: user.id,
+          category: payload.category,
+          business_name: payload.businessName,
           phone: payload.phone || null,
           address: payload.address || null,
           password: payload.password,
@@ -62,25 +94,16 @@ export default function RegisterPage() {
       });
 
       if (!res.ok) {
-        const json = (await res.json().catch(() => null)) as RegisterErrorResponse | null;
+        const json = (await res.json().catch(() => null)) as ErrorResponse | null;
         const firstError =
           json?.message ??
           (json?.errors ? Object.values(json.errors)?.flat()?.[0] : null) ??
-          `Register failed (${res.status})`;
+          `Create supplier account failed (${res.status})`;
         throw new Error(firstError);
       }
 
-      const json = (await res.json().catch(() => null)) as { data?: unknown } | null;
-      const user = (json?.data ?? null) as
-        | { id: number; name: string; email: string; phone?: string | null; address?: string | null }
-        | null;
-
-      if (user) {
-        window.localStorage.setItem('nuclear_user', JSON.stringify(user));
-      }
-
       setStatus('success');
-      setMessage('Registrasi berhasil.');
+      setMessage('Supplier account berhasil dibuat. Menunggu verifikasi.');
       window.location.href = '/profile';
     } catch (e) {
       setStatus('error');
@@ -91,13 +114,36 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-[0_18px_50px_rgba(0,0,0,0.18)] border border-gray-100 px-7 pt-8 pb-10">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-2">
-            <div className="text-2xl font-black tracking-tight text-[#F6B100]">NuClear</div>
+        <div className="flex items-center justify-between">
+          <div className="text-2xl font-black tracking-tight text-[#F6B100]">NuClear</div>
+          <Link href="/profile" className="text-sm font-bold text-gray-500">
+            Kembali
+          </Link>
+        </div>
+
+        <div className="mt-6 text-sm text-gray-600 font-medium">Pilih Kategori</div>
+
+        <div className="mt-2 relative">
+          <select
+            value={payload.category}
+            onChange={(e) => setField('category', e.target.value)}
+            className="w-full appearance-none bg-white border border-gray-300 rounded-full px-6 py-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/40"
+          >
+            <option value="UMKM">UMKM</option>
+            <option value="Perusahaan">Perusahaan</option>
+          </select>
+          <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-gray-500">
+            <ChevronDown size={20} />
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-4">
+        <div className="mt-5 flex flex-col gap-4">
+          <input
+            value={payload.businessName}
+            onChange={(e) => setField('businessName', e.target.value)}
+            placeholder="Nama Usaha"
+            className="w-full bg-white border border-gray-300 rounded-full px-6 py-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/40"
+          />
           <input
             value={payload.name}
             onChange={(e) => setField('name', e.target.value)}
