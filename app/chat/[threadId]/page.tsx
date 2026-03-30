@@ -2,7 +2,7 @@
 
 import { ArrowLeft, Phone, Send } from 'lucide-react';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { use, useMemo, useState } from 'react';
 
 type ChatMessage = {
   id: string;
@@ -36,16 +36,17 @@ function Bubble({ message }: { message: ChatMessage }) {
 export default function ChatThreadPage({
   params,
 }: {
-  params: { threadId: string };
+  params: Promise<{ threadId: string }>;
 }) {
+  const { threadId } = use(params);
   const title = useMemo(() => {
     const map: Record<string, string> = {
       'steven-bakery': 'Steven Bakery',
       'nadila-bakery': 'Nadila Bakery',
       'eka-pie': 'Eka Pie',
     };
-    return map[params.threadId] ?? 'Chat';
-  }, [params.threadId]);
+    return map[threadId] ?? 'Chat';
+  }, [threadId]);
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 'm1', side: 'right', kind: 'text', text: 'Baik' },
