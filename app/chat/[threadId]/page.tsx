@@ -16,7 +16,7 @@ function getInitialMessages(threadId: string): ChatMessage[] {
     return [
       {
         id: 'cs-1',
-        side: 'right',
+        side: 'left',
         kind: 'text',
         text: 'Halo! Aku NuClear CS. Kamu bisa pilih template pertanyaan di bawah, atau langsung hubungi live service.',
       },
@@ -27,7 +27,7 @@ function getInitialMessages(threadId: string): ChatMessage[] {
     return [
       {
         id: 'live-1',
-        side: 'right',
+        side: 'left',
         kind: 'text',
         text: 'Kamu sekarang terhubung ke Live Service. Silakan jelaskan kebutuhan albumen kamu.',
       },
@@ -35,18 +35,18 @@ function getInitialMessages(threadId: string): ChatMessage[] {
   }
 
   return [
-    { id: 'm1', side: 'right', kind: 'text', text: 'Baik' },
-    { id: 'm2', side: 'left', kind: 'text', text: 'Terimakasih sudah memesan.' },
-    { id: 'm3', side: 'right', kind: 'text', text: 'Oke, ditunggu ya.' },
-    { id: 'm4', side: 'left', kind: 'text', text: 'Siap, pesanan sedang di kemas.' },
+    { id: 'm1', side: 'right', kind: 'text', text: 'Saya mau order putih telur dong kak' },
+    { id: 'm2', side: 'left', kind: 'text', text: 'Siapp, boleh silahkan dipesan.' },
+    { id: 'm3', side: 'right', kind: 'text', text: 'Oke, sudah ya.' },
+    { id: 'm4', side: 'left', kind: 'text', text: 'Sip, pesanan sedang di kemas.' },
   ];
 }
 
 function Bubble({ message }: { message: ChatMessage }) {
-  const isLeft = message.side === 'left';
-  const bubbleClass = isLeft
-    ? 'bg-primary text-primary-foreground rounded-3xl rounded-bl-lg'
-    : 'bg-surface-2 text-foreground rounded-3xl rounded-br-lg border border-border';
+  const isUser = message.side === 'right';
+  const bubbleClass = isUser
+    ? 'bg-primary text-primary-foreground rounded-3xl rounded-br-lg'
+    : 'bg-surface-2 text-foreground rounded-3xl rounded-bl-lg border border-border';
 
   const widthClass = useMemo(() => {
     const len = message.text.trim().length;
@@ -56,7 +56,7 @@ function Bubble({ message }: { message: ChatMessage }) {
   }, [message.text]);
 
   return (
-    <div className={`flex ${isLeft ? 'justify-start' : 'justify-end'}`}>
+    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div className={`${widthClass} ${bubbleClass} px-6 py-5 text-sm leading-relaxed shadow-[0_8px_18px_rgba(0,0,0,0.06)]`}>
         {message.text}
       </div>
@@ -99,7 +99,7 @@ export default function ChatThreadPage({
     if (!trimmed) return;
     setMessages((prev) => [
       ...prev,
-      { id: `m-${Date.now()}-${Math.random()}`, side: 'left', kind: 'text', text: trimmed },
+      { id: `m-${Date.now()}-${Math.random()}`, side: 'right', kind: 'text', text: trimmed },
     ]);
   };
 
@@ -114,7 +114,7 @@ export default function ChatThreadPage({
     if (!reply) return;
     setMessages((prev) => [
       ...prev,
-      { id: `r-${Date.now()}-${Math.random()}`, side: 'right', kind: 'text', text: reply },
+      { id: `r-${Date.now()}-${Math.random()}`, side: 'left', kind: 'text', text: reply },
     ]);
   };
 
