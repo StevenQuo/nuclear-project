@@ -11,6 +11,37 @@ type ChatMessage = {
   text: string;
 };
 
+function getInitialMessages(threadId: string): ChatMessage[] {
+  if (threadId === 'customer-service') {
+    return [
+      {
+        id: 'cs-1',
+        side: 'right',
+        kind: 'text',
+        text: 'Halo! Aku NuClear CS. Kamu bisa pilih template pertanyaan di bawah, atau langsung hubungi live service.',
+      },
+    ];
+  }
+
+  if (threadId === 'customer-service-live') {
+    return [
+      {
+        id: 'live-1',
+        side: 'right',
+        kind: 'text',
+        text: 'Kamu sekarang terhubung ke Live Service. Silakan jelaskan kebutuhan albumen kamu.',
+      },
+    ];
+  }
+
+  return [
+    { id: 'm1', side: 'right', kind: 'text', text: 'Baik' },
+    { id: 'm2', side: 'left', kind: 'text', text: 'Terimakasih sudah memesan.' },
+    { id: 'm3', side: 'right', kind: 'text', text: 'Oke, ditunggu ya.' },
+    { id: 'm4', side: 'left', kind: 'text', text: 'Siap, pesanan sedang di kemas.' },
+  ];
+}
+
 function Bubble({ message }: { message: ChatMessage }) {
   const isLeft = message.side === 'left';
   const bubbleClass = isLeft
@@ -41,6 +72,8 @@ export default function ChatThreadPage({
   const { threadId } = use(params);
   const title = useMemo(() => {
     const map: Record<string, string> = {
+      'customer-service': 'Customer Service',
+      'customer-service-live': 'Live Service',
       'steven-bakery': 'Steven Bakery',
       'nadila-bakery': 'Nadila Bakery',
       'eka-pie': 'Eka Pie',
@@ -48,21 +81,47 @@ export default function ChatThreadPage({
     return map[threadId] ?? 'Chat';
   }, [threadId]);
 
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { id: 'm1', side: 'right', kind: 'text', text: 'Baik' },
-    { id: 'm2', side: 'left', kind: 'text', text: 'Terimakasih sudah memesan.' },
-    { id: 'm3', side: 'right', kind: 'text', text: 'Oke, ditunggu ya.' },
-    { id: 'm4', side: 'left', kind: 'text', text: 'Siap, pesanan sedang di kemas.' },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => getInitialMessages(threadId));
   const [text, setText] = useState('');
+
+  const templates = useMemo(() => {
+    if (threadId !== 'customer-service') return [];
+    return [
+      { id: 't1', label: 'Harga albumen', text: 'Boleh info harga albumen dan minimal pembelian?' },
+      { id: 't2', label: 'Cara order', text: 'Cara order putih telur/albummen gimana?' },
+      { id: 't3', label: 'Pengiriman', text: 'Pengiriman biasanya berapa lama dan area mana saja?' },
+      { id: 't4', label: 'Penyimpanan', text: 'Cara simpan albumen yang benar biar awet gimana?' },
+    ];
+  }, [threadId]);
+
+  const onSendMessage = (value: string) => {
+    const trimmed = value.trim();
+    if (!trimmed) return;
+    setMessages((prev) => [
+      ...prev,
+      { id: `m-${Date.now()}-${Math.random()}`, side: 'left', kind: 'text', text: trimmed },
+    ]);
+  };
+
+  const onAutoReply = (templateId: string) => {
+    const replies: Record<string, string> = {
+      t1: 'Harga tergantung lokasi dan volume. Untuk mulai, kamu bisa cek Supplier Terdekat di Home lalu pilih supplier untuk detail harga.',
+      t2: 'Masuk ke Home → pilih Supplier Terdekat → tekan “Pesan Sekarang”. Kamu juga bisa tulis kebutuhan liter kamu di chat supplier.',
+      t3: 'Estimasi pengiriman tergantung jarak supplier. Untuk saat ini, kami fokus area terdekat dari lokasi kamu.',
+      t4: 'Simpan di chiller (0–4°C) dan gunakan wadah tertutup. Jika beku, bagi per porsi agar mudah dipakai.',
+    };
+    const reply = replies[templateId];
+    if (!reply) return;
+    setMessages((prev) => [
+      ...prev,
+      { id: `r-${Date.now()}-${Math.random()}`, side: 'right', kind: 'text', text: reply },
+    ]);
+  };
 
   const onSend = () => {
     const value = text.trim();
     if (!value) return;
-    setMessages((prev) => [
-      ...prev,
-      { id: `m-${Date.now()}`, side: 'left', kind: 'text', text: value },
-    ]);
+    onSendMessage(value);
     setText('');
   };
 
@@ -90,6 +149,33 @@ export default function ChatThreadPage({
             Hari ini
           </div>
         </div>
+
+        {threadId === 'customer-service' ? (
+          <div className="mb-6">
+            <div className="text-xs font-semibold text-muted mb-3">Template Pertanyaan</div>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {templates.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => {
+                    onSendMessage(t.text);
+                    onAutoReply(t.id);
+                  }}
+                  className="flex-shrink-0 px-4 py-2 rounded-full border border-border bg-surface-2 text-foreground text-xs font-semibold active:scale-[0.99] transition-transform"
+                >
+                  {t.label}
+                </button>
+              ))}
+              <Link
+                href="/chat/customer-service-live"
+                className="flex-shrink-0 px-4 py-2 rounded-full border border-border bg-primary text-primary-foreground text-xs font-semibold"
+              >
+                Live Service
+              </Link>
+            </div>
+          </div>
+        ) : null}
 
         <div className="flex flex-col gap-7">
           {messages.map((m) => (

@@ -10,6 +10,13 @@ type ChatThread = {
 
 const threads: ChatThread[] = [
   {
+    id: 'customer-service',
+    name: 'Customer Service',
+    lastMessage: 'Pilih template pertanyaan atau hubungi live service',
+    time: 'Now',
+    unreadCount: 0,
+  },
+  {
     id: 'steven-bakery',
     name: 'Steven Bakery',
     lastMessage: 'Baik Terimakasih sudah memesan',

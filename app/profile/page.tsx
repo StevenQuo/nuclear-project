@@ -1,8 +1,8 @@
 'use client';
 
-import { Bell, ChevronRight, Moon, Store, UserCircle2 } from 'lucide-react';
+import { Bell, ChevronRight, Headset, Moon, Store, UserCircle2 } from 'lucide-react';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useMemo, useSyncExternalStore, useState } from 'react';
 
 type StoredUser = {
   id: number;
@@ -24,19 +24,29 @@ export default function ProfilePage() {
     }
   });
 
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return window.localStorage.getItem('nuclear_theme') === 'dark';
-  });
+  const theme = useSyncExternalStore(
+    (onStoreChange) => {
+      const onStorage = (e: StorageEvent) => {
+        if (e.key === 'nuclear_theme') onStoreChange();
+      };
+      const onCustom = () => onStoreChange();
+      window.addEventListener('storage', onStorage);
+      window.addEventListener('nuclear-theme-change', onCustom as EventListener);
+      return () => {
+        window.removeEventListener('storage', onStorage);
+        window.removeEventListener('nuclear-theme-change', onCustom as EventListener);
+      };
+    },
+    () => window.localStorage.getItem('nuclear_theme') ?? '',
+    () => ''
+  );
 
+  const darkMode = theme === 'dark';
   const toggleDarkMode = () => {
-    setDarkMode((prev) => {
-      const next = !prev;
-      const theme = next ? 'dark' : 'light';
-      window.localStorage.setItem('nuclear_theme', theme);
-      document.documentElement.dataset.theme = theme;
-      return next;
-    });
+    const next = darkMode ? 'light' : 'dark';
+    window.localStorage.setItem('nuclear_theme', next);
+    document.documentElement.dataset.theme = next;
+    window.dispatchEvent(new Event('nuclear-theme-change'));
   };
 
   const displayName = useMemo(() => user?.name ?? 'Guest', [user?.name]);
@@ -87,6 +97,20 @@ export default function ProfilePage() {
             </div>
             <ChevronRight size={18} className="text-muted-2" />
           </button>
+
+          <Link
+            href="/chat/customer-service"
+            className="w-full px-6 py-4 flex items-center justify-between border-b border-border active:bg-surface-2"
+          >
+            <div className="flex items-center gap-3">
+              <Headset size={20} className="text-muted" />
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold">Customer Service</span>
+                <span className="text-xs text-muted">Template pertanyaan & live service</span>
+              </div>
+            </div>
+            <ChevronRight size={18} className="text-muted-2" />
+          </Link>
 
           <button
             type="button"

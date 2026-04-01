@@ -2,7 +2,7 @@
 
 import { LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 
 type StoredUser = {
   id: number;
@@ -12,17 +12,32 @@ type StoredUser = {
 
 export default function HomeHeader() {
   const [open, setOpen] = useState(false);
-  const [userName] = useState<string>(() => {
-    if (typeof window === 'undefined') return 'Adhipanna';
-    const raw = window.localStorage.getItem('nuclear_user');
-    if (!raw) return 'Adhipanna';
+  const storedUserRaw = useSyncExternalStore(
+    (onStoreChange) => {
+      const onStorage = (e: StorageEvent) => {
+        if (e.key === 'nuclear_user') onStoreChange();
+      };
+      const onCustom = () => onStoreChange();
+      window.addEventListener('storage', onStorage);
+      window.addEventListener('nuclear-user-change', onCustom as EventListener);
+      return () => {
+        window.removeEventListener('storage', onStorage);
+        window.removeEventListener('nuclear-user-change', onCustom as EventListener);
+      };
+    },
+    () => window.localStorage.getItem('nuclear_user') ?? '',
+    () => ''
+  );
+
+  const computedUserName = (() => {
+    if (!storedUserRaw) return 'Adhipanna';
     try {
-      const parsed = JSON.parse(raw) as StoredUser;
+      const parsed = JSON.parse(storedUserRaw) as StoredUser;
       return parsed?.name ?? 'Adhipanna';
     } catch {
       return 'Adhipanna';
     }
-  });
+  })();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -38,6 +53,7 @@ export default function HomeHeader() {
 
   const onLogout = () => {
     window.localStorage.removeItem('nuclear_user');
+    window.dispatchEvent(new Event('nuclear-user-change'));
     window.location.href = '/register';
   };
 
@@ -53,7 +69,7 @@ export default function HomeHeader() {
           aria-haspopup="menu"
           aria-expanded={open}
         >
-          <span className="text-sm font-medium text-black">{userName}</span>
+          <span className="text-sm font-medium text-black">{computedUserName}</span>
           <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border-2 border-white/50 shadow-sm">
             <div className="w-full h-full bg-gray-400 flex items-center justify-center text-lg">
               👤
