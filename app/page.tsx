@@ -26,7 +26,7 @@ export default async function Home() {
         ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white pb-[calc(96px+env(safe-area-inset-bottom))]">
+    <div className="flex flex-col min-h-screen bg-background text-foreground pb-[calc(96px+env(safe-area-inset-bottom))]">
       {/* Header Section */}
       <header className="bg-primary rounded-b-[40px] px-6 pt-12 pb-10">
         <HomeHeader />
@@ -36,7 +36,7 @@ export default async function Home() {
           <input
             type="text"
             placeholder="Telusuri putih telur terdekat...."
-            className="w-full bg-white rounded-full py-4 px-6 pr-32 text-sm shadow-[0_4px_20px_rgba(0,0,0,0.08)] focus:outline-none placeholder:text-gray-400"
+            className="w-full bg-surface rounded-full py-4 px-6 pr-32 text-sm shadow-[0_4px_20px_rgba(0,0,0,0.08)] focus:outline-none placeholder:text-muted-2 text-foreground border border-border"
           />
           <button className="absolute right-2 bg-[#7C7DB1] text-white px-7 py-2.5 rounded-full text-sm font-medium hover:bg-[#6A6B9D] transition-colors shadow-sm">
             Telusuri
@@ -81,10 +81,10 @@ export default async function Home() {
               return (
                 <div
                   key={supplier.id}
-                  className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 flex flex-col"
+                  className="bg-surface rounded-3xl overflow-hidden shadow-lg border border-border flex flex-col"
                 >
-                  <div className="relative h-48 w-full bg-gray-100">
-                    <div className="w-full h-full flex items-center justify-center text-gray-400 italic">
+                  <div className="relative h-48 w-full bg-surface-2 border-b border-border">
+                    <div className="w-full h-full flex items-center justify-center text-muted-2 italic">
                       Product Image
                     </div>
                   </div>
@@ -92,7 +92,7 @@ export default async function Home() {
                   <div className="p-5 flex flex-col gap-3">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">{supplier.name}</h3>
+                        <h3 className="text-lg font-bold">{supplier.name}</h3>
                         <div className="flex items-center gap-1 mt-1">
                           {[1, 2, 3, 4, 5].map((i) => {
                             const isFilled = i <= filled;
@@ -100,7 +100,7 @@ export default async function Home() {
                               <Star
                                 key={i}
                                 size={14}
-                                className={isFilled ? 'fill-yellow-400 text-yellow-400' : 'text-gray-200'}
+                                className={isFilled ? 'fill-yellow-400 text-yellow-400' : 'text-muted-2'}
                               />
                             );
                           })}
@@ -108,7 +108,7 @@ export default async function Home() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-gray-400">
+                    <div className="flex items-center gap-1.5 text-muted">
                       <MapPin size={14} />
                       <span className="text-xs">{supplier.address}</span>
                     </div>

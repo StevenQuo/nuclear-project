@@ -14,8 +14,8 @@ type ChatMessage = {
 function Bubble({ message }: { message: ChatMessage }) {
   const isLeft = message.side === 'left';
   const bubbleClass = isLeft
-    ? 'bg-primary text-black rounded-3xl rounded-bl-lg'
-    : 'bg-gray-100 text-black rounded-3xl rounded-br-lg';
+    ? 'bg-primary text-primary-foreground rounded-3xl rounded-bl-lg'
+    : 'bg-surface-2 text-foreground rounded-3xl rounded-br-lg border border-border';
 
   const widthClass = useMemo(() => {
     const len = message.text.trim().length;
@@ -67,26 +67,26 @@ export default function ChatThreadPage({
   };
 
   return (
-    <div className="flex flex-col h-[100dvh] bg-white">
-      <header className="px-6 pt-12 pb-5 border-b border-gray-200 flex items-center justify-between gap-4">
+    <div className="flex flex-col h-[100dvh] bg-background text-foreground">
+      <header className="px-6 pt-12 pb-5 border-b border-border flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 min-w-0">
           <Link
             href="/chat"
             aria-label="Back to chat list"
-            className="w-10 h-10 rounded-full flex items-center justify-center text-black active:bg-gray-50 transition-colors"
+            className="w-10 h-10 rounded-full flex items-center justify-center text-foreground active:bg-surface-2 transition-colors"
           >
             <ArrowLeft size={22} />
           </Link>
-          <h1 className="text-2xl font-bold text-black truncate">{title}</h1>
+          <h1 className="text-2xl font-bold truncate">{title}</h1>
         </div>
-        <button className="w-10 h-10 rounded-full flex items-center justify-center text-gray-300 active:bg-gray-50 transition-colors">
+        <button className="w-10 h-10 rounded-full flex items-center justify-center text-muted-2 active:bg-surface-2 transition-colors">
           <Phone size={22} />
         </button>
       </header>
 
       <main className="flex-1 overflow-y-auto px-6 pt-6 pb-32">
         <div className="flex justify-center mb-6">
-          <div className="bg-gray-300/80 text-white text-xs font-medium px-5 py-2 rounded-full">
+          <div className="bg-surface-2 text-muted text-xs font-medium px-5 py-2 rounded-full border border-border">
             Hari ini
           </div>
         </div>
@@ -98,9 +98,9 @@ export default function ChatThreadPage({
         </div>
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 w-full bg-white px-6 pb-[calc(24px+env(safe-area-inset-bottom))] pt-3">
+      <div className="fixed bottom-0 left-0 right-0 w-full bg-surface px-6 pb-[calc(24px+env(safe-area-inset-bottom))] pt-3 border-t border-border">
         <div className="flex items-center gap-4">
-          <div className="flex-1 bg-white border border-primary/40 rounded-full px-6 py-4 shadow-[0_10px_25px_rgba(0,0,0,0.06)]">
+          <div className="flex-1 bg-background border border-border rounded-full px-6 py-4 shadow-[0_10px_25px_rgba(0,0,0,0.06)]">
             <input
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -108,7 +108,7 @@ export default function ChatThreadPage({
                 if (e.key === 'Enter') onSend();
               }}
               placeholder="Kirim Pesan Sekarang....."
-              className="w-full text-sm text-black placeholder:text-gray-300 focus:outline-none"
+              className="w-full text-sm text-foreground placeholder:text-muted-2 focus:outline-none bg-transparent"
             />
           </div>
           <button

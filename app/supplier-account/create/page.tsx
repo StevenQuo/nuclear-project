@@ -112,27 +112,27 @@ export default function CreateSupplierAccountPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-[0_18px_50px_rgba(0,0,0,0.18)] border border-gray-100 px-7 pt-8 pb-10">
+    <div className="min-h-screen bg-background flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-md bg-surface rounded-3xl shadow-[0_18px_50px_rgba(0,0,0,0.18)] border border-border px-7 pt-8 pb-10">
         <div className="flex items-center justify-between">
           <div className="text-2xl font-black tracking-tight text-[#F6B100]">NuClear</div>
-          <Link href="/profile" className="text-sm font-bold text-gray-500">
+          <Link href="/profile" className="text-sm font-bold text-muted">
             Kembali
           </Link>
         </div>
 
-        <div className="mt-6 text-sm text-gray-600 font-medium">Pilih Kategori</div>
+        <div className="mt-6 text-sm text-muted font-medium">Pilih Kategori</div>
 
         <div className="mt-2 relative">
           <select
             value={payload.category}
             onChange={(e) => setField('category', e.target.value)}
-            className="w-full appearance-none bg-white border border-gray-300 rounded-full px-6 py-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/40"
+            className="w-full appearance-none bg-background border border-border rounded-full px-6 py-4 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
           >
             <option value="UMKM">UMKM</option>
             <option value="Perusahaan">Perusahaan</option>
           </select>
-          <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-gray-500">
+          <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-muted">
             <ChevronDown size={20} />
           </div>
         </div>
@@ -142,40 +142,40 @@ export default function CreateSupplierAccountPage() {
             value={payload.businessName}
             onChange={(e) => setField('businessName', e.target.value)}
             placeholder="Nama Usaha"
-            className="w-full bg-white border border-gray-300 rounded-full px-6 py-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/40"
+            className="w-full bg-background border border-border rounded-full px-6 py-4 text-sm text-foreground placeholder:text-muted-2 focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
           <input
             value={payload.name}
             onChange={(e) => setField('name', e.target.value)}
             placeholder="Nama Lengkap"
-            className="w-full bg-white border border-gray-300 rounded-full px-6 py-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/40"
+            className="w-full bg-background border border-border rounded-full px-6 py-4 text-sm text-foreground placeholder:text-muted-2 focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
           <input
             value={payload.email}
             onChange={(e) => setField('email', e.target.value)}
             placeholder="Email"
             type="email"
-            className="w-full bg-white border border-gray-300 rounded-full px-6 py-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/40"
+            className="w-full bg-background border border-border rounded-full px-6 py-4 text-sm text-foreground placeholder:text-muted-2 focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
           <input
             value={payload.phone}
             onChange={(e) => setField('phone', e.target.value)}
             placeholder="No Telfon"
             inputMode="tel"
-            className="w-full bg-white border border-gray-300 rounded-full px-6 py-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/40"
+            className="w-full bg-background border border-border rounded-full px-6 py-4 text-sm text-foreground placeholder:text-muted-2 focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
           <input
             value={payload.address}
             onChange={(e) => setField('address', e.target.value)}
             placeholder="Alamat..."
-            className="w-full bg-white border border-gray-300 rounded-full px-6 py-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/40"
+            className="w-full bg-background border border-border rounded-full px-6 py-4 text-sm text-foreground placeholder:text-muted-2 focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
           <input
             value={payload.password}
             onChange={(e) => setField('password', e.target.value)}
             placeholder="Password..."
             type="password"
-            className="w-full bg-white border border-gray-300 rounded-full px-6 py-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/40"
+            className="w-full bg-background border border-border rounded-full px-6 py-4 text-sm text-foreground placeholder:text-muted-2 focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
         </div>
 

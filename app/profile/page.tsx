@@ -43,63 +43,63 @@ export default function ProfilePage() {
   const displayEmail = useMemo(() => user?.email ?? 'Belum login', [user?.email]);
 
   return (
-    <div className="min-h-screen bg-white pb-[calc(96px+env(safe-area-inset-bottom))]">
-      <div className="px-6 pt-12 pb-6 border-b border-gray-100">
+    <div className="min-h-screen bg-background text-foreground pb-[calc(96px+env(safe-area-inset-bottom))]">
+      <div className="px-6 pt-12 pb-6 border-b border-border">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center">
-            <UserCircle2 size={34} className="text-gray-400" />
+          <div className="w-14 h-14 rounded-full bg-surface-2 flex items-center justify-center border border-border">
+            <UserCircle2 size={34} className="text-muted-2" />
           </div>
           <div className="min-w-0">
-            <div className="text-xl font-bold text-black truncate">{displayName}</div>
-            <div className="text-sm text-gray-500 truncate">{displayEmail}</div>
+            <div className="text-xl font-bold truncate">{displayName}</div>
+            <div className="text-sm text-muted truncate">{displayEmail}</div>
           </div>
         </div>
       </div>
 
       <div className="mt-2">
-        <div className="bg-white">
-          <button className="w-full px-6 py-4 flex items-center justify-between border-b border-gray-100 active:bg-gray-50">
+        <div className="bg-background">
+          <button className="w-full px-6 py-4 flex items-center justify-between border-b border-border active:bg-surface-2">
             <div className="flex items-center gap-3">
-              <UserCircle2 size={20} className="text-gray-500" />
-              <span className="text-sm font-semibold text-gray-900">Change Profile</span>
+              <UserCircle2 size={20} className="text-muted" />
+              <span className="text-sm font-semibold">Change Profile</span>
             </div>
-            <ChevronRight size={18} className="text-gray-300" />
+            <ChevronRight size={18} className="text-muted-2" />
           </button>
 
           <Link
             href="/supplier-account/create"
-            className="w-full px-6 py-4 flex items-center justify-between border-b border-gray-100 active:bg-gray-50"
+            className="w-full px-6 py-4 flex items-center justify-between border-b border-border active:bg-surface-2"
           >
             <div className="flex items-center gap-3">
-              <Store size={20} className="text-gray-500" />
+              <Store size={20} className="text-muted" />
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-gray-900">Switch to Supplier Account</span>
-                <span className="text-xs text-gray-500">Buat akun supplier & verifikasi</span>
+                <span className="text-sm font-semibold">Switch to Supplier Account</span>
+                <span className="text-xs text-muted">Buat akun supplier & verifikasi</span>
               </div>
             </div>
-            <ChevronRight size={18} className="text-gray-300" />
+            <ChevronRight size={18} className="text-muted-2" />
           </Link>
 
-          <button className="w-full px-6 py-4 flex items-center justify-between border-b border-gray-100 active:bg-gray-50">
+          <button className="w-full px-6 py-4 flex items-center justify-between border-b border-border active:bg-surface-2">
             <div className="flex items-center gap-3">
-              <Bell size={20} className="text-gray-500" />
-              <span className="text-sm font-semibold text-gray-900">Notification</span>
+              <Bell size={20} className="text-muted" />
+              <span className="text-sm font-semibold">Notification</span>
             </div>
-            <ChevronRight size={18} className="text-gray-300" />
+            <ChevronRight size={18} className="text-muted-2" />
           </button>
 
           <button
             type="button"
             onClick={toggleDarkMode}
-            className="w-full px-6 py-4 flex items-center justify-between border-b border-gray-100 active:bg-gray-50"
+            className="w-full px-6 py-4 flex items-center justify-between border-b border-border active:bg-surface-2"
           >
             <div className="flex items-center gap-3">
-              <Moon size={20} className="text-gray-500" />
-              <span className="text-sm font-semibold text-gray-900">Dark Mode</span>
+              <Moon size={20} className="text-muted" />
+              <span className="text-sm font-semibold">Dark Mode</span>
             </div>
             <div
               className={`w-12 h-7 rounded-full p-1 transition-colors ${
-                darkMode ? 'bg-primary' : 'bg-gray-200'
+                darkMode ? 'bg-primary' : 'bg-surface-2'
               }`}
             >
               <div
@@ -118,7 +118,7 @@ export default function ProfilePage() {
               window.localStorage.removeItem('nuclear_user');
               window.location.href = '/register';
             }}
-            className="w-full rounded-full py-4 bg-gray-100 text-gray-700 font-bold"
+            className="w-full rounded-full py-4 bg-surface-2 text-foreground font-bold border border-border"
           >
             Logout
           </button>

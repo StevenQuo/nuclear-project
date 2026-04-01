@@ -22,7 +22,7 @@ const promos: VoucherPromo[] = [
 
 function VoucherCard({ promo }: { promo: VoucherPromo }) {
   return (
-    <div className="bg-white rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.10)] border border-gray-100">
+    <div className="bg-surface rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.10)] border border-border">
       <div className="p-4">
         <div className="h-44 rounded-2xl overflow-hidden bg-[#0A7AA8] relative">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12),transparent_45%),radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.10),transparent_45%)]" />
@@ -52,7 +52,7 @@ function VoucherCard({ promo }: { promo: VoucherPromo }) {
       </div>
 
       <div className="px-5 pb-5">
-        <button className="w-full bg-primary text-white rounded-full py-4 text-base font-medium shadow-[0_8px_18px_rgba(0,0,0,0.10)] active:scale-[0.99] transition-transform">
+        <button className="w-full bg-primary text-primary-foreground rounded-full py-4 text-base font-medium shadow-[0_8px_18px_rgba(0,0,0,0.10)] active:scale-[0.99] transition-transform">
           Gunakan Sekarang
         </button>
       </div>
@@ -62,9 +62,9 @@ function VoucherCard({ promo }: { promo: VoucherPromo }) {
 
 export default function PromoPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white pb-[calc(96px+env(safe-area-inset-bottom))]">
-      <header className="px-6 pt-12 pb-6 border-b border-gray-100">
-        <h1 className="text-2xl font-bold text-black">Promo</h1>
+    <div className="flex flex-col min-h-screen bg-background text-foreground pb-[calc(96px+env(safe-area-inset-bottom))]">
+      <header className="px-6 pt-12 pb-6 border-b border-border">
+        <h1 className="text-2xl font-bold">Promo</h1>
       </header>
 
       <main className="px-6 py-8 flex flex-col gap-6">

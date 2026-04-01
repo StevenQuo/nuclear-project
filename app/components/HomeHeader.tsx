@@ -64,22 +64,22 @@ export default function HomeHeader() {
         {open ? (
           <div
             role="menu"
-            className="absolute right-0 mt-3 w-44 bg-white rounded-2xl border border-gray-100 shadow-[0_18px_45px_rgba(0,0,0,0.18)] overflow-hidden z-50"
+            className="absolute right-0 mt-3 w-44 bg-surface rounded-2xl border border-border shadow-[0_18px_45px_rgba(0,0,0,0.18)] overflow-hidden z-50"
           >
             <Link
               href="/profile"
               role="menuitem"
-              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-800 hover:bg-gray-50"
+              className="flex items-center gap-3 px-4 py-3 text-sm text-foreground hover:bg-surface-2"
               onClick={() => setOpen(false)}
             >
-              <Settings size={18} className="text-gray-500" />
+              <Settings size={18} className="text-muted" />
               Settings
             </Link>
             <button
               type="button"
               role="menuitem"
               onClick={onLogout}
-              className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50"
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-surface-2"
             >
               <LogOut size={18} className="text-red-500" />
               Logout

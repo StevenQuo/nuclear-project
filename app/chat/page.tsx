@@ -36,12 +36,12 @@ function ThreadRow({ thread }: { thread: ChatThread }) {
   return (
     <Link
       href={`/chat/${thread.id}`}
-      className="block w-full text-left px-6 py-6 bg-white active:bg-gray-50 transition-colors"
+      className="block w-full text-left px-6 py-6 bg-background active:bg-surface-2 transition-colors"
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <div className="text-lg font-bold text-black truncate">{thread.name}</div>
-          <div className="mt-2 text-sm text-gray-300 truncate">{thread.lastMessage}</div>
+          <div className="text-lg font-bold truncate">{thread.name}</div>
+          <div className="mt-2 text-sm text-muted-2 truncate">{thread.lastMessage}</div>
         </div>
         <div className="flex flex-col items-end gap-3 flex-shrink-0">
           <div className="text-sm font-medium text-primary">{thread.time}</div>
@@ -58,13 +58,13 @@ function ThreadRow({ thread }: { thread: ChatThread }) {
 
 export default function ChatPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white pb-[calc(96px+env(safe-area-inset-bottom))]">
-      <header className="px-6 pt-12 pb-6 border-b border-gray-200">
-        <h1 className="text-2xl font-bold text-black">Chat</h1>
+    <div className="flex flex-col min-h-screen bg-background text-foreground pb-[calc(96px+env(safe-area-inset-bottom))]">
+      <header className="px-6 pt-12 pb-6 border-b border-border">
+        <h1 className="text-2xl font-bold">Chat</h1>
       </header>
 
       <main className="flex-1">
-        <div className="divide-y divide-gray-200">
+        <div className="divide-y divide-border">
           {threads.map((t) => (
             <ThreadRow key={t.id} thread={t} />
           ))}
