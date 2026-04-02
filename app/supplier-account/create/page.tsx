@@ -102,6 +102,22 @@ export default function CreateSupplierAccountPage() {
         throw new Error(firstError);
       }
 
+      const json = (await res.json().catch(() => null)) as { data?: unknown } | null;
+      const profile = (json?.data ?? null) as
+        | {
+            id: number;
+            user_id: number;
+            business_name: string;
+            phone?: string | null;
+            address?: string | null;
+            status?: string;
+          }
+        | null;
+
+      if (profile) {
+        window.localStorage.setItem('nuclear_supplier_profile', JSON.stringify(profile));
+      }
+
       setStatus('success');
       setMessage('Supplier account berhasil dibuat. Menunggu verifikasi.');
       window.location.href = '/profile';

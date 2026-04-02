@@ -68,13 +68,16 @@ export default function ProfilePage() {
 
       <div className="mt-2">
         <div className="bg-background">
-          <button className="w-full px-6 py-4 flex items-center justify-between border-b border-border active:bg-surface-2">
+          <Link
+            href="/profile/edit"
+            className="w-full px-6 py-4 flex items-center justify-between border-b border-border active:bg-surface-2"
+          >
             <div className="flex items-center gap-3">
               <UserCircle2 size={20} className="text-muted" />
               <span className="text-sm font-semibold">Change Profile</span>
             </div>
             <ChevronRight size={18} className="text-muted-2" />
-          </button>
+          </Link>
 
           <Link
             href="/supplier-account/create"
