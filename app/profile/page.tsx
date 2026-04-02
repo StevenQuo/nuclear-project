@@ -140,7 +140,7 @@ export default function ProfilePage() {
             type="button"
             onClick={() => {
               window.localStorage.removeItem('nuclear_user');
-              window.location.href = '/register';
+              window.location.href = '/login';
             }}
             className="w-full rounded-full py-4 bg-surface-2 text-foreground font-bold border border-border"
           >

@@ -54,7 +54,7 @@ export default function HomeHeader() {
   const onLogout = () => {
     window.localStorage.removeItem('nuclear_user');
     window.dispatchEvent(new Event('nuclear-user-change'));
-    window.location.href = '/register';
+    window.location.href = '/login';
   };
 
   return (
